@@ -923,7 +923,7 @@ const TimelineEditor: React.FC = () => {
 
         <div
           className="flex-1 relative overflow-hidden"
-          style={{ minHeight: isMobile ? "calc(100vh - 200px)" : "calc(100vh - 200px)" }}
+          style={{ minHeight: isMobile ? "calc(100vh - 120px)" : "calc(100vh - 140px)" }}
         >
           <motion.div
             ref={timelineRef}
@@ -1638,43 +1638,7 @@ const TimelineEditor: React.FC = () => {
           )}
         </motion.button>
 
-        <motion.footer
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="mt-auto border-t border-slate-200/20 bg-white/30 backdrop-blur-sm"
-        >
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-              {/* Status indicator */}
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1, duration: 0.5 }}
-                className="flex items-center gap-3"
-              >
-                <div className="flex items-center gap-2 text-sm text-slate-600">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="font-medium">Online</span>
-                </div>
-                <span className="text-slate-300">•</span>
-                <span className="text-xs text-slate-500">v2.1.0</span>
-              </motion.div>
-
-              {/* Simple app info */}
-              <motion.div
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.1, duration: 0.5 }}
-                className="text-xs text-slate-500 text-center sm:text-right"
-              >
-                <span className="font-semibold text-gradient">Timeline Pro</span>
-                <span className="hidden sm:inline mx-2">•</span>
-                <span className="block sm:inline">Streamlined task management</span>
-              </motion.div>
-            </div>
-          </div>
-        </motion.footer>
+        
       </motion.div>
     </>
   );

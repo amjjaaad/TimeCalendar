@@ -454,12 +454,24 @@ const TimelineEditor: React.FC = () => {
         </AnimatePresence>
 
         <div className="flex-1 relative">
-          <div
+          <motion.div
             ref={timelineRef}
-            className="absolute inset-0 overflow-auto scroll-smooth pb-20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.7 }}
+            className={`absolute inset-0 overflow-auto pb-20`}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            style={{
+              WebkitOverflowScrolling: "touch",
+              scrollBehavior: "auto",
+              position: "relative",
+              transform: "translateZ(0)",
+              zIndex: 10,
+              contain: "layout style",
+              willChange: "scroll-position",
+            }}
           >
             <div className="sticky top-0 z-40 border-b border-white/10 shadow-lg" style={{ position: "-webkit-sticky", background: "rgba(255, 255, 255, 0.95)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
               <div className="flex">
@@ -499,7 +511,7 @@ const TimelineEditor: React.FC = () => {
                 </AnimatePresence>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
 
         <AnimatePresence>

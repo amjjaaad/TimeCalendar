@@ -21,6 +21,7 @@
     "vite": "^3.0.4"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "autoprefixer": "^10.4.21",
     "clsx": "^2.1.1",
     "framer-motion": "^12.20.2",

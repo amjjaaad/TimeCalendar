@@ -1136,10 +1136,11 @@ const TimelineEditor: React.FC = () => {
                   className={clsx(
                     "absolute z-[101] clay-effect flex flex-col",
                     isMobile
-                      ? "inset-x-4 top-8 bottom-8 rounded-3xl max-h-[calc(100vh-4rem)]"
-                      : "top-4 right-4 bottom-4 w-[450px] rounded-3xl max-h-[calc(100vh-2rem)]",
+                      ? "inset-x-4 top-8 bottom-8 rounded-3xl"
+                      : "top-4 right-4 bottom-4 w-[450px] rounded-3xl",
                   )}
                   style={{
+                    maxHeight: isMobile ? "calc(100vh - 4rem)" : "calc(100vh - 2rem)",
                     boxShadow: `
                       8px 8px 32px rgba(174, 190, 205, 0.6),
                       -8px -8px 32px rgba(255, 255, 255, 0.9),
@@ -1148,160 +1149,166 @@ const TimelineEditor: React.FC = () => {
                     `,
                   }}
                 >
-                  <div className="p-8 overflow-y-auto flex-1">
-                    <div className="flex items-center justify-between mb-8">
-                      <div>
-                        <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-3 mb-1">
-                          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center">
-                            <IoAdd className="w-5 h-5 text-white" />
-                          </div>
-                          Add New Task
-                        </h2>
-                        <p className="text-sm text-slate-500">
-                          Create a new task for your timeline
-                        </p>
-                      </div>
-                      <motion.button
-                        whileHover={{
-                          scale: 1.1,
-                          backgroundColor: "rgba(248, 250, 252, 1)",
-                        }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => setShowAddDialog(false)}
-                        className="w-10 h-10 bg-slate-100/80 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-700 transition-all duration-200"
-                      >
-                        <IoClose className="w-5 h-5" />
-                      </motion.button>
-                    </div>
-
-                    <div className="space-y-6">
-                      <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-3">
-                          Task Title
-                        </label>
-                        <input
-                          type="text"
-                          value={newTaskTitle}
-                          onChange={(e) => setNewTaskTitle(e.target.value)}
-                          className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800 placeholder-slate-400"
-                          placeholder="Enter task title..."
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-3">
-                          Description
-                        </label>
-                        <textarea
-                          value={newTaskDescription}
-                          onChange={(e) =>
-                            setNewTaskDescription(e.target.value)
-                          }
-                          rows={3}
-                          className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none resize-none transition-all bg-white/50 text-slate-800 placeholder-slate-400"
-                          placeholder="Task description..."
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-3">
-                          Priority
-                        </label>
-                        <select
-                          value={newTaskPriority}
-                          onChange={(e) =>
-                            setNewTaskPriority(
-                              e.target.value as "low" | "medium" | "high",
-                            )
-                          }
-                          className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
+                  <div className="flex flex-col h-full">
+                    <div className="p-8 pb-4 shrink-0">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-3 mb-1">
+                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center">
+                              <IoAdd className="w-5 h-5 text-white" />
+                            </div>
+                            Add New Task
+                          </h2>
+                          <p className="text-sm text-slate-500">
+                            Create a new task for your timeline
+                          </p>
+                        </div>
+                        <motion.button
+                          whileHover={{
+                            scale: 1.1,
+                            backgroundColor: "rgba(248, 250, 252, 1)",
+                          }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => setShowAddDialog(false)}
+                          className="w-10 h-10 bg-slate-100/80 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-700 transition-all duration-200"
                         >
-                          <option value="low">Low Priority</option>
-                          <option value="medium">Medium Priority</option>
-                          <option value="high">High Priority</option>
-                        </select>
+                          <IoClose className="w-5 h-5" />
+                        </motion.button>
                       </div>
+                    </div>
 
-                      <div className="grid grid-cols-2 gap-4">
+                    <div className="flex-1 overflow-y-auto px-8">
+                      <div className="space-y-6 pb-4">
                         <div>
                           <label className="block text-sm font-bold text-slate-700 mb-3">
-                            Start Time
+                            Task Title
                           </label>
                           <input
                             type="text"
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            value={newTaskStartTimeStr}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(
-                                /[^0-9]/g,
-                                "",
-                              );
-                              if (
-                                value === "" ||
-                                (parseInt(value) >= 0 && parseInt(value) <= 23) ||
-                                value === "0"
-                              ) {
-                                setNewTaskStartTimeStr(value);
-                              }
-                            }}
-                            className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
-                            placeholder="0-23"
+                            value={newTaskTitle}
+                            onChange={(e) => setNewTaskTitle(e.target.value)}
+                            className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800 placeholder-slate-400"
+                            placeholder="Enter task title..."
                           />
                         </div>
+
                         <div>
                           <label className="block text-sm font-bold text-slate-700 mb-3">
-                            Duration (hrs)
+                            Description
                           </label>
-                          <input
-                            type="text"
-                            inputMode="decimal"
-                            pattern="[0-9]*\.?[0-9]*"
-                            value={newTaskDurationStr}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(
-                                /[^0-9.]/g,
-                                "",
-                              );
-                              if (
-                                value === "" ||
-                                (!isNaN(parseFloat(value)) &&
-                                  parseFloat(value) <= 12)
-                              ) {
-                                setNewTaskDurationStr(value);
-                              }
-                            }}
-                            className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
-                            placeholder="0.5-12"
+                          <textarea
+                            value={newTaskDescription}
+                            onChange={(e) =>
+                              setNewTaskDescription(e.target.value)
+                            }
+                            rows={3}
+                            className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none resize-none transition-all bg-white/50 text-slate-800 placeholder-slate-400"
+                            placeholder="Task description..."
                           />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 mb-3">
+                            Priority
+                          </label>
+                          <select
+                            value={newTaskPriority}
+                            onChange={(e) =>
+                              setNewTaskPriority(
+                                e.target.value as "low" | "medium" | "high",
+                              )
+                            }
+                            className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
+                          >
+                            <option value="low">Low Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="high">High Priority</option>
+                          </select>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-bold text-slate-700 mb-3">
+                              Start Time
+                            </label>
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              pattern="[0-9]*"
+                              value={newTaskStartTimeStr}
+                              onChange={(e) => {
+                                const value = e.target.value.replace(
+                                  /[^0-9]/g,
+                                  "",
+                                );
+                                if (
+                                  value === "" ||
+                                  (parseInt(value) >= 0 && parseInt(value) <= 23) ||
+                                  value === "0"
+                                ) {
+                                  setNewTaskStartTimeStr(value);
+                                }
+                              }}
+                              className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
+                              placeholder="0-23"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-slate-700 mb-3">
+                              Duration (hrs)
+                            </label>
+                            <input
+                              type="text"
+                              inputMode="decimal"
+                              pattern="[0-9]*\.?[0-9]*"
+                              value={newTaskDurationStr}
+                              onChange={(e) => {
+                                const value = e.target.value.replace(
+                                  /[^0-9.]/g,
+                                  "",
+                                );
+                                if (
+                                  value === "" ||
+                                  (!isNaN(parseFloat(value)) &&
+                                    parseFloat(value) <= 12)
+                                ) {
+                                  setNewTaskDurationStr(value);
+                                }
+                              }}
+                              className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
+                              placeholder="0.5-12"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex gap-4 pt-8 border-t border-slate-200/50 mt-8">
-                      <motion.button
-                        whileHover={{
-                          scale: 1.02,
-                          boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                        }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setShowAddDialog(false)}
-                        className="flex-1 py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-all duration-200"
-                      >
-                        Cancel
-                      </motion.button>
-                      <motion.button
-                        whileHover={{
-                          scale: 1.02,
-                          boxShadow: "0 8px 25px rgba(102, 126, 234, 0.35)",
-                        }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={handleCreateTask}
-                        className="flex-1 py-4 premium-gradient text-white rounded-2xl font-bold transition-all duration-200 flex items-center justify-center gap-2"
-                      >
-                        <IoCheckmarkCircle className="w-5 h-5" />
-                        Create Task
-                      </motion.button>
+                    <div className="shrink-0 border-t border-slate-200/50 p-8 pt-6">
+                      <div className="flex gap-4">
+                        <motion.button
+                          whileHover={{
+                            scale: 1.02,
+                            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                          }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setShowAddDialog(false)}
+                          className="flex-1 py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-all duration-200"
+                        >
+                          Cancel
+                        </motion.button>
+                        <motion.button
+                          whileHover={{
+                            scale: 1.02,
+                            boxShadow: "0 8px 25px rgba(102, 126, 234, 0.35)",
+                          }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={handleCreateTask}
+                          className="flex-1 py-4 premium-gradient text-white rounded-2xl font-bold transition-all duration-200 flex items-center justify-center gap-2"
+                        >
+                          <IoCheckmarkCircle className="w-5 h-5" />
+                          Create Task
+                        </motion.button>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -1328,10 +1335,11 @@ const TimelineEditor: React.FC = () => {
                   className={clsx(
                     "absolute z-[101] clay-effect flex flex-col",
                     isMobile
-                      ? "inset-x-4 top-8 bottom-8 rounded-3xl max-h-[calc(100vh-4rem)]"
-                      : "top-4 right-4 bottom-4 w-[450px] rounded-3xl max-h-[calc(100vh-2rem)]",
+                      ? "inset-x-4 top-8 bottom-8 rounded-3xl"
+                      : "top-4 right-4 bottom-4 w-[450px] rounded-3xl",
                   )}
                   style={{
+                    maxHeight: isMobile ? "calc(100vh - 4rem)" : "calc(100vh - 2rem)",
                     boxShadow: `
                       8px 8px 32px rgba(174, 190, 205, 0.6),
                       -8px -8px 32px rgba(255, 255, 255, 0.9),
@@ -1340,188 +1348,194 @@ const TimelineEditor: React.FC = () => {
                     `,
                   }}
                 >
-                  <div className="p-8 overflow-y-auto flex-1">
-                    <div className="flex items-center justify-between mb-8">
-                      <div>
-                        <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-3 mb-1">
-                          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center">
-                            <FiEdit3 className="w-5 h-5 text-white" />
-                          </div>
-                          Edit Task
-                        </h2>
-                        <p className="text-sm text-slate-500">
-                          Modify your task details
-                        </p>
-                      </div>
-                      <motion.button
-                        whileHover={{
-                          scale: 1.1,
-                          backgroundColor: "rgba(248, 250, 252, 1)",
-                        }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => setShowEditDialog(false)}
-                        className="w-10 h-10 bg-slate-100/80 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-700 transition-all duration-200"
-                      >
-                        <IoClose className="w-5 h-5" />
-                      </motion.button>
-                    </div>
-
-                    <div className="space-y-6">
-                      <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-3">
-                          Task Title
-                        </label>
-                        <input
-                          type="text"
-                          value={editingTask.title}
-                          onChange={(e) =>
-                            setEditingTask({
-                              ...editingTask,
-                              title: e.target.value,
-                            })
-                          }
-                          className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800 placeholder-slate-400"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-3">
-                          Description
-                        </label>
-                        <textarea
-                          value={editingTask.description || ""}
-                          onChange={(e) =>
-                            setEditingTask({
-                              ...editingTask,
-                              description: e.target.value,
-                            })
-                          }
-                          rows={3}
-                          className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none resize-none transition-all bg-white/50 text-slate-800 placeholder-slate-400"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-3">
-                          Priority
-                        </label>
-                        <select
-                          value={editingTask.priority}
-                          onChange={(e) =>
-                            setEditingTask({
-                              ...editingTask,
-                              priority: e.target.value as
-                                | "low"
-                                | "medium"
-                                | "high",
-                            })
-                          }
-                          className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
+                  <div className="flex flex-col h-full">
+                    <div className="p-8 pb-4 shrink-0">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-3 mb-1">
+                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center">
+                              <FiEdit3 className="w-5 h-5 text-white" />
+                            </div>
+                            Edit Task
+                          </h2>
+                          <p className="text-sm text-slate-500">
+                            Modify your task details
+                          </p>
+                        </div>
+                        <motion.button
+                          whileHover={{
+                            scale: 1.1,
+                            backgroundColor: "rgba(248, 250, 252, 1)",
+                          }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => setShowEditDialog(false)}
+                          className="w-10 h-10 bg-slate-100/80 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-700 transition-all duration-200"
                         >
-                          <option value="low">Low Priority</option>
-                          <option value="medium">Medium Priority</option>
-                          <option value="high">High Priority</option>
-                        </select>
+                          <IoClose className="w-5 h-5" />
+                        </motion.button>
                       </div>
+                    </div>
 
-                      <div className="grid grid-cols-2 gap-4">
+                    <div className="flex-1 overflow-y-auto px-8">
+                      <div className="space-y-6 pb-4">
                         <div>
                           <label className="block text-sm font-bold text-slate-700 mb-3">
-                            Start Time
+                            Task Title
                           </label>
                           <input
                             type="text"
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            value={editingTask.startTime.toString()}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(
-                                /[^0-9]/g,
-                                "",
-                              );
-                              if (
-                                value === "" ||
-                                (parseInt(value) >= 0 && parseInt(value) <= 23) ||
-                                value === "0"
-                              ) {
-                                setEditingTask({
-                                  ...editingTask,
-                                  startTime: value === "" ? 0 : parseInt(value),
-                                });
-                              }
-                            }}
-                            className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
-                            placeholder="0-23"
+                            value={editingTask.title}
+                            onChange={(e) =>
+                              setEditingTask({
+                                ...editingTask,
+                                title: e.target.value,
+                              })
+                            }
+                            className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800 placeholder-slate-400"
                           />
                         </div>
+
                         <div>
                           <label className="block text-sm font-bold text-slate-700 mb-3">
-                            Duration (hrs)
+                            Description
                           </label>
-                          <input
-                            type="text"
-                            inputMode="decimal"
-                            pattern="[0-9]*\.?[0-9]*"
-                            value={editingTask.duration.toString()}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(
-                                /[^0-9.]/g,
-                                "",
-                              );
-                              if (
-                                value === "" ||
-                                (!isNaN(parseFloat(value)) &&
-                                  parseFloat(value) <= 12)
-                              ) {
-                                setEditingTask({
-                                  ...editingTask,
-                                  duration: parseFloat(value) || 0.5,
-                                });
-                              }
-                            }}
-                            className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
-                            placeholder="0.5-12"
+                          <textarea
+                            value={editingTask.description || ""}
+                            onChange={(e) =>
+                              setEditingTask({
+                                ...editingTask,
+                                description: e.target.value,
+                              })
+                            }
+                            rows={3}
+                            className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none resize-none transition-all bg-white/50 text-slate-800 placeholder-slate-400"
                           />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 mb-3">
+                            Priority
+                          </label>
+                          <select
+                            value={editingTask.priority}
+                            onChange={(e) =>
+                              setEditingTask({
+                                ...editingTask,
+                                priority: e.target.value as
+                                  | "low"
+                                  | "medium"
+                                  | "high",
+                              })
+                            }
+                            className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
+                          >
+                            <option value="low">Low Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="high">High Priority</option>
+                          </select>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-bold text-slate-700 mb-3">
+                              Start Time
+                            </label>
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              pattern="[0-9]*"
+                              value={editingTask.startTime.toString()}
+                              onChange={(e) => {
+                                const value = e.target.value.replace(
+                                  /[^0-9]/g,
+                                  "",
+                                );
+                                if (
+                                  value === "" ||
+                                  (parseInt(value) >= 0 && parseInt(value) <= 23) ||
+                                  value === "0"
+                                ) {
+                                  setEditingTask({
+                                    ...editingTask,
+                                    startTime: value === "" ? 0 : parseInt(value),
+                                  });
+                                }
+                              }}
+                              className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
+                              placeholder="0-23"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-slate-700 mb-3">
+                              Duration (hrs)
+                            </label>
+                            <input
+                              type="text"
+                              inputMode="decimal"
+                              pattern="[0-9]*\.?[0-9]*"
+                              value={editingTask.duration.toString()}
+                              onChange={(e) => {
+                                const value = e.target.value.replace(
+                                  /[^0-9.]/g,
+                                  "",
+                                );
+                                if (
+                                  value === "" ||
+                                  (!isNaN(parseFloat(value)) &&
+                                    parseFloat(value) <= 12)
+                                ) {
+                                  setEditingTask({
+                                    ...editingTask,
+                                    duration: parseFloat(value) || 0.5,
+                                  });
+                                }
+                              }}
+                              className="w-full p-4 border border-slate-200 rounded-2xl focus:border-purple-400 focus:ring-4 focus:ring-purple-100 outline-none transition-all bg-white/50 text-slate-800"
+                              placeholder="0.5-12"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex gap-3 pt-8 border-t border-slate-200/50 mt-8">
-                      <motion.button
-                        whileHover={{
-                          scale: 1.05,
-                          boxShadow: "0 4px 20px rgba(239, 68, 68, 0.25)",
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => handleDeleteTask(editingTask.id)}
-                        className="flex-1 py-4 bg-red-500 text-white rounded-2xl font-bold hover:bg-red-600 transition-all duration-200 flex items-center justify-center gap-2"
-                      >
-                        <IoTrash className="w-4 h-4" />
-                        Delete
-                      </motion.button>
-                      <motion.button
-                        whileHover={{
-                          scale: 1.02,
-                          boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                        }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setShowEditDialog(false)}
-                        className="flex-1 py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-all duration-200 flex items-center justify-center"
-                      >
-                        Cancel
-                      </motion.button>
-                      <motion.button
-                        whileHover={{
-                          scale: 1.02,
-                          boxShadow: "0 8px 25px rgba(102, 126, 234, 0.35)",
-                        }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={handleUpdateTask}
-                        className="flex-1 py-4 premium-gradient text-white rounded-2xl font-bold transition-all duration-200 flex items-center justify-center gap-2"
-                      >
-                        <IoCheckmarkCircle className="w-5 h-5" />
-                        Update
-                      </motion.button>
+                    <div className="shrink-0 border-t border-slate-200/50 p-8 pt-6">
+                      <div className="flex gap-3">
+                        <motion.button
+                          whileHover={{
+                            scale: 1.05,
+                            boxShadow: "0 4px 20px rgba(239, 68, 68, 0.25)",
+                          }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleDeleteTask(editingTask.id)}
+                          className="flex-1 py-4 bg-red-500 text-white rounded-2xl font-bold hover:bg-red-600 transition-all duration-200 flex items-center justify-center gap-2"
+                        >
+                          <IoTrash className="w-4 h-4" />
+                          Delete
+                        </motion.button>
+                        <motion.button
+                          whileHover={{
+                            scale: 1.02,
+                            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                          }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setShowEditDialog(false)}
+                          className="flex-1 py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-all duration-200 flex items-center justify-center"
+                        >
+                          Cancel
+                        </motion.button>
+                        <motion.button
+                          whileHover={{
+                            scale: 1.02,
+                            boxShadow: "0 8px 25px rgba(102, 126, 234, 0.35)",
+                          }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={handleUpdateTask}
+                          className="flex-1 py-4 premium-gradient text-white rounded-2xl font-bold transition-all duration-200 flex items-center justify-center gap-2"
+                        >
+                          <IoCheckmarkCircle className="w-5 h-5" />
+                          Update
+                        </motion.button>
+                      </div>
                     </div>
                   </div>
                 </motion.div>

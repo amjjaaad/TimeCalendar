@@ -475,10 +475,11 @@ const TimelineEditor: React.FC = () => {
       return;
     }
 
-    const startTime = Math.max(
-      0,
-      Math.min(23, parseInt(newTaskStartTimeStr) || 9),
-    );
+    // Parse start time - handle empty string or "0" correctly
+    const startTime = newTaskStartTimeStr === "" || newTaskStartTimeStr === "0" 
+      ? 0 
+      : Math.max(0, Math.min(23, parseInt(newTaskStartTimeStr) || 9));
+    
     const duration = Math.max(
       0.5,
       Math.min(12, parseFloat(newTaskDurationStr) || 1),
@@ -1273,7 +1274,8 @@ const TimelineEditor: React.FC = () => {
                               );
                               if (
                                 value === "" ||
-                                (parseInt(value) >= 0 && parseInt(value) <= 23)
+                                (parseInt(value) >= 0 && parseInt(value) <= 23) ||
+                                value === "0"
                               ) {
                                 setNewTaskStartTimeStr(value);
                               }
@@ -1474,11 +1476,12 @@ const TimelineEditor: React.FC = () => {
                               );
                               if (
                                 value === "" ||
-                                (parseInt(value) >= 0 && parseInt(value) <= 23)
+                                (parseInt(value) >= 0 && parseInt(value) <= 23) ||
+                                value === "0"
                               ) {
                                 setEditingTask({
                                   ...editingTask,
-                                  startTime: parseInt(value) || 0,
+                                  startTime: value === "" ? 0 : parseInt(value),
                                 });
                               }
                             }}

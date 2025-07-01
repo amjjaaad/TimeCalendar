@@ -774,7 +774,7 @@ const TimelineEditor: React.FC = () => {
             {/* Mobile Layout */}
             {isMobile ? (
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-center">
                   <motion.h1
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -792,22 +792,6 @@ const TimelineEditor: React.FC = () => {
                   >
                     Timeline Pro
                   </motion.h1>
-                  
-                  <motion.button
-                    initial={{ x: 20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                    whileHover={{
-                      scale: 1.05,
-                      boxShadow: "0 8px 25px rgba(102, 126, 234, 0.35)",
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleAddTask}
-                    className="px-4 py-2 premium-gradient text-white rounded-xl font-semibold card-shadow flex items-center gap-2 touch-manipulation transition-all duration-200 text-sm"
-                  >
-                    <IoAdd className="w-4 h-4" />
-                    <span>Add</span>
-                  </motion.button>
                 </div>
                 
                 <motion.div
@@ -1636,6 +1620,39 @@ const TimelineEditor: React.FC = () => {
             </motion.div>
           )}
         </motion.div>
+
+        {/* Floating Action Button */}
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.6 }}
+          whileHover={{
+            scale: 1.1,
+            boxShadow: "0 12px 35px rgba(102, 126, 234, 0.4)",
+          }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handleAddTask}
+          className={clsx(
+            "fixed premium-gradient text-white rounded-full flex items-center justify-center card-shadow touch-manipulation transition-all duration-300 z-50",
+            isMobile 
+              ? "bottom-4 right-4 w-14 h-14 shadow-2xl" 
+              : "bottom-6 right-6 w-16 h-16 shadow-2xl hover:shadow-3xl"
+          )}
+          style={{
+            boxShadow: `
+              0 8px 32px rgba(102, 126, 234, 0.3),
+              0 4px 16px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3)
+            `,
+          }}
+        >
+          <motion.div
+            whileHover={{ rotate: 180 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <IoAdd className={isMobile ? "w-6 h-6" : "w-7 h-7"} />
+          </motion.div>
+        </motion.button>
 
         <motion.footer
           initial={{ opacity: 0, y: 50 }}

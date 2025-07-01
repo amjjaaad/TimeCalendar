@@ -728,6 +728,13 @@ const TimelineEditor: React.FC = () => {
           scrollbar-color: rgba(102, 126, 234, 0.6) rgba(255, 255, 255, 0.1);
         }
 
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
         @media (max-width: 768px) {
           ::-webkit-scrollbar {
             width: 6px;
@@ -760,77 +767,141 @@ const TimelineEditor: React.FC = () => {
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="sticky top-0 z-50 clay-effect border-b border-slate-200/20 px-6 py-6"
+          className="sticky top-0 z-50 clay-effect border-b border-slate-200/20 px-4 md:px-6 py-4 md:py-6"
         >
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <motion.div
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="relative flex-1"
-            >
-              <div className="relative">
-                <motion.h1
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{
-                    delay: 0.3,
-                    duration: 0.8,
-                    type: "spring",
-                    stiffness: 100,
-                  }}
-                  className={`${isMobile ? "text-2xl" : "text-2xl md:text-3xl"} font-black stunning-title mb-1 relative`}
-                  style={{
-                    fontWeight: 900,
-                    letterSpacing: "-0.02em",
-                  }}
+          <div className="max-w-7xl mx-auto">
+            {/* Mobile Layout */}
+            {isMobile ? (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <motion.h1
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{
+                      delay: 0.3,
+                      duration: 0.8,
+                      type: "spring",
+                      stiffness: 100,
+                    }}
+                    className="text-xl font-black stunning-title"
+                    style={{
+                      fontWeight: 900,
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    Timeline Pro
+                  </motion.h1>
+                  
+                  <motion.button
+                    initial={{ x: 20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0 8px 25px rgba(102, 126, 234, 0.35)",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleAddTask}
+                    className="px-4 py-2 premium-gradient text-white rounded-xl font-semibold card-shadow flex items-center gap-2 touch-manipulation transition-all duration-200 text-sm"
+                  >
+                    <IoAdd className="w-4 h-4" />
+                    <span>Add</span>
+                  </motion.button>
+                </div>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.6 }}
+                  className="flex items-center gap-3"
                 >
-                  <span>Timeline</span>
-                  <span> Pro</span>
-                </motion.h1>
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg">
+                    <FiClock className="w-3 h-3 text-white" />
+                  </div>
+                  <div className="text-xs text-slate-600">
+                    <span className="font-bold text-slate-800">
+                      {tasks.length}
+                    </span>
+                    <span className="mx-1">tasks</span>
+                    <span className="text-slate-500">
+                      • Tap to edit • Drag to move
+                    </span>
+                  </div>
+                </motion.div>
               </div>
+            ) : (
+              /* Desktop Layout */
+              <div className="flex items-center justify-between">
+                <motion.div
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="relative flex-1"
+                >
+                  <div className="relative">
+                    <motion.h1
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{
+                        delay: 0.3,
+                        duration: 0.8,
+                        type: "spring",
+                        stiffness: 100,
+                      }}
+                      className="text-2xl md:text-3xl font-black stunning-title mb-1 relative"
+                      style={{
+                        fontWeight: 900,
+                        letterSpacing: "-0.02em",
+                      }}
+                    >
+                      <span>Timeline</span>
+                      <span> Pro</span>
+                    </motion.h1>
+                  </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
-                className="flex items-center gap-4 mt-3"
-              >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg">
-                  <FiClock className="w-4 h-4 text-white" />
-                </div>
-                <div className="text-sm text-slate-600">
-                  <span className="font-bold text-slate-800">
-                    {tasks.length}
-                  </span>
-                  <span className="mx-2">active tasks</span>
-                  <span className="text-xs text-slate-500">
-                    • Drag to reschedule • Pinch to zoom
-                  </span>
-                </div>
-              </motion.div>
-            </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6, duration: 0.6 }}
+                    className="flex items-center gap-4 mt-3"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg">
+                      <FiClock className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="text-sm text-slate-600">
+                      <span className="font-bold text-slate-800">
+                        {tasks.length}
+                      </span>
+                      <span className="mx-2">active tasks</span>
+                      <span className="text-xs text-slate-500">
+                        • Drag to reschedule • Pinch to zoom
+                      </span>
+                    </div>
+                  </motion.div>
+                </motion.div>
 
-            <motion.button
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 8px 25px rgba(102, 126, 234, 0.35)",
-              }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleAddTask}
-              className={`${isMobile ? "px-5 py-3 text-sm" : "px-7 py-4 text-sm"} premium-gradient text-white rounded-2xl font-semibold card-shadow flex items-center gap-3 touch-manipulation transition-all duration-200 ml-6`}
-            >
-              <motion.div
-                whileInView={{ rotate: 360 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-              >
-                <IoAdd className="w-5 h-5" />
-              </motion.div>
-              <span className="font-semibold">Create Task</span>
-            </motion.button>
+                <motion.button
+                  initial={{ x: 20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 8px 25px rgba(102, 126, 234, 0.35)",
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleAddTask}
+                  className="px-7 py-4 text-sm premium-gradient text-white rounded-2xl font-semibold card-shadow flex items-center gap-3 touch-manipulation transition-all duration-200 ml-6"
+                >
+                  <motion.div
+                    whileInView={{ rotate: 360 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                  >
+                    <IoAdd className="w-5 h-5" />
+                  </motion.div>
+                  <span className="font-semibold">Create Task</span>
+                </motion.button>
+              </div>
+            )}
           </div>
         </motion.div>
 
@@ -886,7 +957,7 @@ const TimelineEditor: React.FC = () => {
 
         <div
           className="flex-1 relative overflow-hidden"
-          style={{ height: isMobile ? "calc(100vh - 160px)" : "auto" }}
+          style={{ height: isMobile ? "calc(100vh - 140px)" : "auto" }}
         >
           <motion.div
             ref={timelineRef}
@@ -902,8 +973,9 @@ const TimelineEditor: React.FC = () => {
               scrollbarWidth: isMobile ? "none" : "thin",
               msOverflowStyle: isMobile ? "none" : "auto",
               position: "relative",
-              height: isMobile ? "calc(100vh - 200px)" : "500px",
+              height: isMobile ? "calc(100vh - 140px)" : "500px",
               transform: "translateZ(0)",
+              zIndex: 10,
             }}
           >
             <div
@@ -914,6 +986,7 @@ const TimelineEditor: React.FC = () => {
                 backdropFilter: "blur(16px)",
                 WebkitBackdropFilter: "blur(16px)",
                 willChange: "transform",
+                zIndex: 40,
               }}
             >
               <motion.div
@@ -963,7 +1036,7 @@ const TimelineEditor: React.FC = () => {
             </div>
 
             <div
-              className="relative p-6 h-full"
+              className={`relative ${isMobile ? "p-3" : "p-6"} h-full`}
               style={{ width: `${24 * hourWidth}px`, minHeight: "500px" }}
             >
               <div className="absolute inset-0 pointer-events-none">
@@ -974,12 +1047,12 @@ const TimelineEditor: React.FC = () => {
                     animate={{ opacity: 1 }}
                     transition={{ delay: hour * 0.02 }}
                     className="absolute top-0 bottom-0 w-px bg-gray-200/50"
-                    style={{ left: `${hour * hourWidth + 24}px` }}
+                    style={{ left: `${hour * hourWidth + (isMobile ? 12 : 24)}px` }}
                   />
                 ))}
               </div>
 
-              <div className="space-y-4">
+              <div className={`${isMobile ? "space-y-3" : "space-y-4"}`}>
                 {sortedTasks.map((task, index) => {
                   const colors = getPriorityColors(task.priority);
                   const conflictStyle = getConflictStyle(task.id);
@@ -996,49 +1069,58 @@ const TimelineEditor: React.FC = () => {
                       onDragStart={() => handleDragStart(task.id)}
                       onDragEnd={(_, info) => handleDragEnd(task.id, info)}
                       whileHover={{ scale: 1.02, y: -2 }}
-                      whileDrag={{ scale: 1.05, rotate: 1, zIndex: 50 }}
+                      whileDrag={{ scale: 1.05, rotate: 1, zIndex: 30 }}
                       className={clsx(
                         "relative cursor-grab active:cursor-grabbing select-none backdrop-blur-sm touch-manipulation overflow-hidden",
                         isMobile ? "rounded-2xl p-3" : "rounded-3xl p-4",
                         "border-2 shadow-2xl transition-all duration-300",
                         conflictStyle ||
                           `${colors.border} ${colors.bg} ${colors.shadow}`,
-                        "h-fit min-h-[100px]",
+                        isMobile ? "min-h-[120px]" : "h-fit min-h-[100px]",
                       )}
                       style={{
                         width: `${task.duration * hourWidth}px`,
-                        marginLeft: `${task.startTime * hourWidth + 24}px`,
+                        marginLeft: `${task.startTime * hourWidth + (isMobile ? 12 : 24)}px`,
                         flexShrink: 0,
-                        minWidth: `${Math.min(120, task.duration * hourWidth)}px`,
+                        minWidth: isMobile 
+                          ? `${Math.max(200, task.duration * hourWidth)}px` 
+                          : `${Math.min(120, task.duration * hourWidth)}px`,
+                        zIndex: 20,
                       }}
                       onClick={() => handleEditTask(task)}
                     >
                       <div className="w-full h-full flex flex-col justify-between overflow-hidden">
-                        <div className="flex-1 space-y-2 pr-6">
+                        <div className={`flex-1 pr-${isMobile ? "4" : "6"} ${isMobile ? "space-y-1" : "space-y-2"}`}>
                           <motion.div
                             whileHover={{ scale: 1.02 }}
                             className={clsx(
                               "inline-flex items-center rounded-full font-bold shrink-0",
-                              "px-2 py-1 text-xs",
+                              isMobile ? "px-2 py-0.5 text-xs" : "px-2 py-1 text-xs",
                               colors.badge,
                             )}
                           >
-                            <FiFlag className="w-3 h-3 mr-1 shrink-0" />
+                            <FiFlag className={`${isMobile ? "w-2.5 h-2.5" : "w-3 h-3"} mr-1 shrink-0`} />
                             <span className="truncate">
                               {task.priority.toUpperCase()}
                             </span>
                           </motion.div>
 
                           <h3
-                            className={`font-bold text-gray-800 text-sm leading-tight truncate pr-1`}
+                            className={`font-bold text-gray-800 ${isMobile ? "text-xs" : "text-sm"} leading-tight ${isMobile ? "line-clamp-2" : "truncate"} pr-1`}
                             title={task.title}
                           >
                             {task.title}
                           </h3>
 
-                          <div className={`text-xs text-gray-600 space-y-1`}>
+                          {isMobile && task.description && (
+                            <p className="text-xs text-gray-600 line-clamp-2 leading-tight">
+                              {task.description}
+                            </p>
+                          )}
+
+                          <div className={`text-xs text-gray-600 ${isMobile ? "space-y-0.5" : "space-y-1"}`}>
                             <div className="flex items-center gap-1 truncate">
-                              <IoTime className="w-3 h-3 shrink-0" />
+                              <IoTime className={`${isMobile ? "w-2.5 h-2.5" : "w-3 h-3"} shrink-0`} />
                               <span className="font-medium truncate">
                                 {formatTime(task.startTime)} -{" "}
                                 {formatTime(task.startTime + task.duration)}
@@ -1055,10 +1137,10 @@ const TimelineEditor: React.FC = () => {
                       </div>
 
                       <motion.div
-                        className="absolute top-2 right-2 text-gray-400"
+                        className={`absolute ${isMobile ? "top-1.5 right-1.5" : "top-2 right-2"} text-gray-400`}
                         whileHover={{ scale: 1.2 }}
                       >
-                        <MdDragIndicator className="w-3 h-3" />
+                        <MdDragIndicator className={`${isMobile ? "w-2.5 h-2.5" : "w-3 h-3"}`} />
                       </motion.div>
                     </motion.div>
                   );

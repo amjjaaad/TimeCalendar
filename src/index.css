@@ -1,4 +1,43 @@
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@layer base {
+  @font-face {
+    font-family: 'Outfit';
+    src: url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+  }
+  
+  html {
+    font-family: 'Outfit', system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .clay-effect {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 
+      0 8px 32px rgba(31, 38, 135, 0.37),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+  
+  .mesh-gradient {
+    background: 
+      radial-gradient(at 40% 20%, hsla(228,100%,74%,1) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, hsla(189,100%,56%,1) 0px, transparent 50%),
+      radial-gradient(at 40% 40%, hsla(355,100%,93%,1) 0px, transparent 50%),
+      radial-gradient(at 80% 40%, hsla(340,100%,76%,1) 0px, transparent 50%),
+      radial-gradient(at 40% 80%, hsla(22,100%,77%,1) 0px, transparent 50%),
+      radial-gradient(at 80% 80%, hsla(242,100%,70%,1) 0px, transparent 50%),
+      radial-gradient(at 40% 0%, hsla(343,100%,76%,1) 0px, transparent 50%),
+      radial-gradient(at 80% 100%, hsla(203,100%,73%,1) 0px, transparent 50%);
+  }
+}

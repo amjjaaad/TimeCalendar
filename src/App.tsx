@@ -1136,7 +1136,7 @@ const TimelineEditor: React.FC = () => {
                   className={clsx(
                     "absolute z-[101] clay-effect flex flex-col",
                     isMobile
-                      ? "inset-x-4 top-4 bottom-4 rounded-3xl max-h-[calc(100vh-2rem)]"
+                      ? "inset-x-4 top-8 bottom-8 rounded-3xl max-h-[calc(100vh-4rem)]"
                       : "top-4 right-4 bottom-4 w-[450px] rounded-3xl max-h-[calc(100vh-2rem)]",
                   )}
                   style={{
@@ -1328,7 +1328,7 @@ const TimelineEditor: React.FC = () => {
                   className={clsx(
                     "absolute z-[101] clay-effect flex flex-col",
                     isMobile
-                      ? "inset-x-4 top-4 bottom-4 rounded-3xl max-h-[calc(100vh-2rem)]"
+                      ? "inset-x-4 top-8 bottom-8 rounded-3xl max-h-[calc(100vh-4rem)]"
                       : "top-4 right-4 bottom-4 w-[450px] rounded-3xl max-h-[calc(100vh-2rem)]",
                   )}
                   style={{

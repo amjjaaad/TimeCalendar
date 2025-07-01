@@ -942,22 +942,35 @@ const TimelineEditor: React.FC = () => {
               zIndex: 10,
             }}
           >
-            <div className="overflow-auto scroll-smooth h-full pb-20">
-              {/* FIX: This header is now a child of a clean scroll container */}
+            <div 
+              className="overflow-auto scroll-smooth h-full pb-20"
+              style={{
+                scrollBehavior: "smooth",
+                WebkitOverflowScrolling: "touch",
+                contain: "layout style paint",
+              }}
+            >
+              {/* Fixed sticky hour markers header */}
               <div
                 className="sticky top-0 z-40 border-b border-white/10 shadow-lg"
                 style={{
-                  position: "-webkit-sticky", // Keep for older Safari
-                  background: "rgba(255, 255, 255, 0.95)",
-                  backdropFilter: "blur(16px)",
-                  WebkitBackdropFilter: "blur(16px)",
+                  position: "sticky",
+                  top: 0,
+                  background: "rgba(255, 255, 255, 0.98)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
                   willChange: "transform",
+                  borderBottom: "1px solid rgba(203, 213, 225, 0.3)",
                 }}
               >
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="flex"
+                  className="flex relative"
+                  style={{
+                    minWidth: "100%",
+                    width: `${24 * hourWidth}px`,
+                  }}
                 >
                   {hours.map((hour) => (
                     <motion.div

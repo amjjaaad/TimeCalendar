@@ -847,7 +847,8 @@ const TimelineEditor: React.FC = () => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6, duration: 0.6                    className="flex items-center gap-4 mt-3"
+                    transition={{ delay: 0.6, duration: 0.6 }}
+                    className="flex items-center gap-4 mt-3"
                   >
                     <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg">
                       <FiClock className="w-4 h-4 text-white" />

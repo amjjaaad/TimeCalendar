@@ -865,26 +865,7 @@ const TimelineEditor: React.FC = () => {
                   </motion.div>
                 </motion.div>
 
-                <motion.button
-                  initial={{ x: 20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                  whileHover={{
-                    scale: 1.05,
-                    boxShadow: "0 8px 25px rgba(102, 126, 234, 0.35)",
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleAddTask}
-                  className="px-7 py-4 text-sm premium-gradient text-white rounded-2xl font-semibold card-shadow flex items-center gap-3 touch-manipulation transition-all duration-200 ml-6"
-                >
-                  <motion.div
-                    whileInView={{ rotate: 360 }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                  >
-                    <IoAdd className="w-5 h-5" />
-                  </motion.div>
-                  <span className="font-semibold">Create Task</span>
-                </motion.button>
+                
               </div>
             )}
           </div>
@@ -941,8 +922,8 @@ const TimelineEditor: React.FC = () => {
         </AnimatePresence>
 
         <div
-          className="flex-1 relative overflow-hidden flex-grow"
-          style={{ minHeight: isMobile ? "calc(100vh - 200px)" : "auto" }}
+          className="flex-1 relative overflow-hidden"
+          style={{ minHeight: isMobile ? "calc(100vh - 200px)" : "calc(100vh - 200px)" }}
         >
           <motion.div
             ref={timelineRef}
@@ -958,7 +939,7 @@ const TimelineEditor: React.FC = () => {
               scrollbarWidth: isMobile ? "none" : "thin",
               msOverflowStyle: isMobile ? "none" : "auto",
               position: "relative",
-              height: isMobile ? "calc(100vh - 140px)" : "500px",
+              height: "100%",
               transform: "translateZ(0)",
               zIndex: 10,
             }}
@@ -1627,16 +1608,16 @@ const TimelineEditor: React.FC = () => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.6 }}
           whileHover={{
-            scale: 1.1,
+            scale: 1.05,
             boxShadow: "0 12px 35px rgba(102, 126, 234, 0.4)",
           }}
           whileTap={{ scale: 0.95 }}
           onClick={handleAddTask}
           className={clsx(
-            "fixed premium-gradient text-white rounded-full flex items-center justify-center card-shadow touch-manipulation transition-all duration-300 z-50",
+            "fixed premium-gradient text-white flex items-center justify-center gap-3 card-shadow touch-manipulation transition-all duration-300 z-50 font-semibold",
             isMobile 
-              ? "bottom-4 right-4 w-14 h-14 shadow-2xl" 
-              : "bottom-6 right-6 w-16 h-16 shadow-2xl hover:shadow-3xl"
+              ? "bottom-4 right-4 w-14 h-14 rounded-full shadow-2xl" 
+              : "bottom-6 right-6 px-6 py-4 rounded-2xl shadow-2xl hover:shadow-3xl"
           )}
           style={{
             boxShadow: `
@@ -1650,8 +1631,11 @@ const TimelineEditor: React.FC = () => {
             whileHover={{ rotate: 180 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <IoAdd className={isMobile ? "w-6 h-6" : "w-7 h-7"} />
+            <IoAdd className={isMobile ? "w-6 h-6" : "w-5 h-5"} />
           </motion.div>
+          {!isMobile && (
+            <span className="text-sm font-semibold">Create Task</span>
+          )}
         </motion.button>
 
         <motion.footer

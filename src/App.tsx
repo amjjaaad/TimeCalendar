@@ -755,7 +755,7 @@ const TimelineEditor: React.FC = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="min-h-screen gradient-mesh relative overflow-x-hidden"
+        className="min-h-screen gradient-mesh relative overflow-x-hidden flex flex-col"
         style={{
           background: `
             linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%),
@@ -941,8 +941,8 @@ const TimelineEditor: React.FC = () => {
         </AnimatePresence>
 
         <div
-          className="flex-1 relative overflow-hidden"
-          style={{ height: isMobile ? "calc(100vh - 140px)" : "auto" }}
+          className="flex-1 relative overflow-hidden flex-grow"
+          style={{ minHeight: isMobile ? "calc(100vh - 200px)" : "auto" }}
         >
           <motion.div
             ref={timelineRef}
@@ -1658,7 +1658,7 @@ const TimelineEditor: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="mt-8 border-t border-slate-200/20 bg-white/30 backdrop-blur-sm"
+          className="mt-auto border-t border-slate-200/20 bg-white/30 backdrop-blur-sm"
         >
           <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3">

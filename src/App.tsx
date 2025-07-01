@@ -1655,127 +1655,38 @@ const TimelineEditor: React.FC = () => {
         </motion.button>
 
         <motion.footer
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.8 }}
-          className="clay-effect border-t border-slate-200/20 mt-8"
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="mt-8 border-t border-slate-200/20 bg-white/30 backdrop-blur-sm"
         >
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
-            {/* Mobile-first layout */}
-            <div className="space-y-6 md:space-y-8">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+              {/* Status indicator */}
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.2, duration: 0.6 }}
-                className="text-center md:text-left"
+                transition={{ delay: 1, duration: 0.5 }}
+                className="flex items-center gap-3"
               >
-                <h3 className="text-lg md:text-xl font-bold text-gradient mb-2 md:mb-3">
-                  Timeline Pro
-                </h3>
-                <p className="text-sm md:text-base text-slate-600 leading-relaxed mb-3 md:mb-4 max-w-2xl mx-auto md:mx-0">
-                  Advanced timeline management for modern teams. Streamline your
-                  workflow with intelligent scheduling and conflict detection.
-                </p>
-                
-                {/* Status indicators - mobile optimized */}
-                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 sm:gap-4">
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    className="flex items-center gap-2 text-sm text-slate-600 bg-green-50 px-3 py-2 rounded-full"
-                  >
-                    <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                    <span className="font-medium">System Online</span>
-                  </motion.div>
-                  <div className="text-sm text-slate-500 bg-slate-50 px-3 py-2 rounded-full">
-                    Version 2.1.0
-                  </div>
+                <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="font-medium">Online</span>
                 </div>
+                <span className="text-slate-300">•</span>
+                <span className="text-xs text-slate-500">v2.1.0</span>
               </motion.div>
 
-              {/* Features grid - mobile optimized */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.4, duration: 0.6 }}
-                  className="bg-white/50 rounded-2xl p-4 md:p-5"
-                >
-                  <h4 className="font-bold text-slate-800 mb-4 text-base md:text-lg flex items-center gap-2">
-                    <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-                      <FiClock className="w-3 h-3 text-white" />
-                    </div>
-                    Features
-                  </h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-3">
-                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
-                      <FiClock className="w-4 h-4 text-indigo-500 shrink-0" />
-                      <span className="text-sm md:text-base text-slate-700">Real-time Scheduling</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
-                      <IoAlertCircle className="w-4 h-4 text-amber-500 shrink-0" />
-                      <span className="text-sm md:text-base text-slate-700">Conflict Detection</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
-                      <MdDragIndicator className="w-4 h-4 text-purple-500 shrink-0" />
-                      <span className="text-sm md:text-base text-slate-700">Drag & Drop</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
-                      <MdZoomIn className="w-4 h-4 text-blue-500 shrink-0" />
-                      <span className="text-sm md:text-base text-slate-700">Zoom Controls</span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.6, duration: 0.6 }}
-                  className="bg-white/50 rounded-2xl p-4 md:p-5"
-                >
-                  <h4 className="font-bold text-slate-800 mb-4 text-base md:text-lg flex items-center gap-2">
-                    <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
-                      <FiUser className="w-3 h-3 text-white" />
-                    </div>
-                    Support
-                  </h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-3">
-                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
-                      <FiUser className="w-4 h-4 text-green-500 shrink-0" />
-                      <span className="text-sm md:text-base text-slate-700">24/7 Support</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
-                      <FiEdit3 className="w-4 h-4 text-indigo-500 shrink-0" />
-                      <span className="text-sm md:text-base text-slate-700">Documentation</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
-                      <IoCheckmarkCircle className="w-4 h-4 text-emerald-500 shrink-0" />
-                      <span className="text-sm md:text-base text-slate-700">Best Practices</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
-                      <FiFlag className="w-4 h-4 text-red-500 shrink-0" />
-                      <span className="text-sm md:text-base text-slate-700">Report Issues</span>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* Bottom status bar - mobile optimized */}
+              {/* Simple app info */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.8, duration: 0.6 }}
-                className="border-t border-white/10 pt-4 md:pt-6"
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.1, duration: 0.5 }}
+                className="text-xs text-slate-500 text-center sm:text-right"
               >
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
-                  <span className="flex items-center gap-2 text-xs md:text-sm text-slate-500 bg-slate-50 px-3 py-2 rounded-full">
-                    <IoRefresh className="w-3 h-3" />
-                    Auto-sync enabled
-                  </span>
-                  <span className="hidden sm:inline text-slate-300">•</span>
-                  <span className="text-xs md:text-sm text-slate-500 bg-slate-50 px-3 py-2 rounded-full">Performance optimized</span>
-                  <span className="hidden sm:inline text-slate-300">•</span>
-                  <span className="text-xs md:text-sm text-slate-500 bg-slate-50 px-3 py-2 rounded-full">Mobile ready</span>
-                </div>
+                <span className="font-semibold text-gradient">Timeline Pro</span>
+                <span className="hidden sm:inline mx-2">•</span>
+                <span className="block sm:inline">Streamlined task management</span>
               </motion.div>
             </div>
           </div>

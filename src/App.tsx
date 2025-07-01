@@ -1643,107 +1643,124 @@ const TimelineEditor: React.FC = () => {
           transition={{ delay: 1, duration: 0.8 }}
           className="clay-effect border-t border-slate-200/20 mt-8"
         >
-          <div className="max-w-7xl mx-auto px-6 py-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
+            {/* Mobile-first layout */}
+            <div className="space-y-6 md:space-y-8">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2, duration: 0.6 }}
+                className="text-center md:text-left"
               >
-                <h3 className="text-xl font-bold text-gradient mb-3">
+                <h3 className="text-lg md:text-xl font-bold text-gradient mb-2 md:mb-3">
                   Timeline Pro
                 </h3>
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                <p className="text-sm md:text-base text-slate-600 leading-relaxed mb-3 md:mb-4 max-w-2xl mx-auto md:mx-0">
                   Advanced timeline management for modern teams. Streamline your
-                  workflow with intelligent scheduling, conflict detection, and
-                  intuitive drag-and-drop interactions.
+                  workflow with intelligent scheduling and conflict detection.
                 </p>
-                <div className="flex items-center gap-4">
+                
+                {/* Status indicators - mobile optimized */}
+                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 sm:gap-4">
                   <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    className="flex items-center gap-2 text-xs text-slate-500"
+                    whileHover={{ scale: 1.05 }}
+                    className="flex items-center gap-2 text-sm text-slate-600 bg-green-50 px-3 py-2 rounded-full"
                   >
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span>System Online</span>
+                    <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="font-medium">System Online</span>
                   </motion.div>
-                  <div className="text-xs text-slate-500">Version 2.1.0</div>
+                  <div className="text-sm text-slate-500 bg-slate-50 px-3 py-2 rounded-full">
+                    Version 2.1.0
+                  </div>
                 </div>
               </motion.div>
 
-              <div className="grid grid-cols-2 gap-6">
+              {/* Features grid - mobile optimized */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.4, duration: 0.6 }}
+                  className="bg-white/50 rounded-2xl p-4 md:p-5"
                 >
-                  <h4 className="font-semibold text-slate-800 mb-3">
+                  <h4 className="font-bold text-slate-800 mb-4 text-base md:text-lg flex items-center gap-2">
+                    <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                      <FiClock className="w-3 h-3 text-white" />
+                    </div>
                     Features
                   </h4>
-                  <ul className="space-y-2 text-sm text-slate-600">
-                    <li className="flex items-center gap-2">
-                      <FiClock className="w-3 h-3 text-indigo-500" />
-                      Real-time Scheduling
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <IoAlertCircle className="w-3 h-3 text-amber-500" />
-                      Conflict Detection
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <MdDragIndicator className="w-3 h-3 text-purple-500" />
-                      Drag & Drop
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <MdZoomIn className="w-3 h-3 text-blue-500" />
-                      Zoom Controls
-                    </li>
-                  </ul>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-3">
+                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
+                      <FiClock className="w-4 h-4 text-indigo-500 shrink-0" />
+                      <span className="text-sm md:text-base text-slate-700">Real-time Scheduling</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
+                      <IoAlertCircle className="w-4 h-4 text-amber-500 shrink-0" />
+                      <span className="text-sm md:text-base text-slate-700">Conflict Detection</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
+                      <MdDragIndicator className="w-4 h-4 text-purple-500 shrink-0" />
+                      <span className="text-sm md:text-base text-slate-700">Drag & Drop</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
+                      <MdZoomIn className="w-4 h-4 text-blue-500 shrink-0" />
+                      <span className="text-sm md:text-base text-slate-700">Zoom Controls</span>
+                    </div>
+                  </div>
                 </motion.div>
 
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.6, duration: 0.6 }}
+                  className="bg-white/50 rounded-2xl p-4 md:p-5"
                 >
-                  <h4 className="font-semibold text-slate-800 mb-3">Support</h4>
-                  <ul className="space-y-2 text-sm text-slate-600">
-                    <li className="flex items-center gap-2">
-                      <FiUser className="w-3 h-3 text-green-500" />
-                      24/7 Support
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <FiEdit3 className="w-3 h-3 text-indigo-500" />
-                      Documentation
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <IoCheckmarkCircle className="w-3 h-3 text-emerald-500" />
-                      Best Practices
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <FiFlag className="w-3 h-3 text-red-500" />
-                      Report Issues
-                    </li>
-                  </ul>
+                  <h4 className="font-bold text-slate-800 mb-4 text-base md:text-lg flex items-center gap-2">
+                    <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                      <FiUser className="w-3 h-3 text-white" />
+                    </div>
+                    Support
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-3">
+                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
+                      <FiUser className="w-4 h-4 text-green-500 shrink-0" />
+                      <span className="text-sm md:text-base text-slate-700">24/7 Support</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
+                      <FiEdit3 className="w-4 h-4 text-indigo-500 shrink-0" />
+                      <span className="text-sm md:text-base text-slate-700">Documentation</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
+                      <IoCheckmarkCircle className="w-4 h-4 text-emerald-500 shrink-0" />
+                      <span className="text-sm md:text-base text-slate-700">Best Practices</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg transition-colors">
+                      <FiFlag className="w-4 h-4 text-red-500 shrink-0" />
+                      <span className="text-sm md:text-base text-slate-700">Report Issues</span>
+                    </div>
+                  </div>
                 </motion.div>
               </div>
-            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.8, duration: 0.6 }}
-              className="border-t border-white/10 mt-8 pt-6 flex justify-center items-center"
-            >
-              <div className="flex items-center gap-4 text-xs text-slate-500">
-                <span className="flex items-center gap-1">
-                  <IoRefresh className="w-3 h-3" />
-                  Auto-sync enabled
-                </span>
-                <span>•</span>
-                <span>Performance optimized</span>
-                <span>•</span>
-                <span>Mobile ready</span>
-              </div>
-            </motion.div>
+              {/* Bottom status bar - mobile optimized */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.8, duration: 0.6 }}
+                className="border-t border-white/10 pt-4 md:pt-6"
+              >
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+                  <span className="flex items-center gap-2 text-xs md:text-sm text-slate-500 bg-slate-50 px-3 py-2 rounded-full">
+                    <IoRefresh className="w-3 h-3" />
+                    Auto-sync enabled
+                  </span>
+                  <span className="hidden sm:inline text-slate-300">•</span>
+                  <span className="text-xs md:text-sm text-slate-500 bg-slate-50 px-3 py-2 rounded-full">Performance optimized</span>
+                  <span className="hidden sm:inline text-slate-300">•</span>
+                  <span className="text-xs md:text-sm text-slate-500 bg-slate-50 px-3 py-2 rounded-full">Mobile ready</span>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </motion.footer>
       </motion.div>

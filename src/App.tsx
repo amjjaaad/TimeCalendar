@@ -925,44 +925,38 @@ const TimelineEditor: React.FC = () => {
           className="flex-1 relative overflow-hidden"
           style={{ minHeight: isMobile ? "calc(100vh - 120px)" : "calc(100vh - 140px)" }}
         >
-          {/* FIX: This outer div is for animation, the inner div is for scrolling */}
           <motion.div
             ref={timelineRef}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.7 }}
-            className={`h-full ${isMobile ? "overscroll-behavior-none" : ""}`}
+            className={`h-full overflow-auto scroll-smooth pb-20 ${isMobile ? "overscroll-behavior-none" : ""}`}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
             style={{
               WebkitOverflowScrolling: "touch",
+              scrollBehavior: "smooth",
               position: "relative",
               transform: "translateZ(0)",
               zIndex: 10,
+              contain: isMobile ? "layout style" : "layout style paint",
             }}
           >
-            <div 
-              className="overflow-auto scroll-smooth h-full pb-20"
+            {/* Sticky hour markers header - moved to be direct child of scroll container */}
+            <div
+              className="sticky top-0 z-40 border-b border-white/10 shadow-lg"
               style={{
-                scrollBehavior: "smooth",
-                WebkitOverflowScrolling: "touch",
-                contain: "layout style paint",
+                position: "sticky",
+                top: 0,
+                background: "rgba(255, 255, 255, 0.98)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                willChange: "transform",
+                borderBottom: "1px solid rgba(203, 213, 225, 0.3)",
+                zIndex: 40,
               }}
             >
-              {/* Fixed sticky hour markers header */}
-              <div
-                className="sticky top-0 z-40 border-b border-white/10 shadow-lg"
-                style={{
-                  position: "sticky",
-                  top: 0,
-                  background: "rgba(255, 255, 255, 0.98)",
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
-                  willChange: "transform",
-                  borderBottom: "1px solid rgba(203, 213, 225, 0.3)",
-                }}
-              >
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -1013,6 +1007,7 @@ const TimelineEditor: React.FC = () => {
                 </motion.div>
               </div>
 
+              {/* Content area - direct sibling of sticky header */}
               <div
                 className={`relative ${isMobile ? "p-3" : "p-6"} h-full`}
                 style={{ width: `${24 * hourWidth}px`, minHeight: "500px" }}
@@ -1125,7 +1120,6 @@ const TimelineEditor: React.FC = () => {
                   })}
                 </div>
               </div>
-            </div>
           </motion.div>
 
           <AnimatePresence>

@@ -930,189 +930,196 @@ const TimelineEditor: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.7 }}
-            className={`overflow-auto scroll-smooth ${isMobile ? "overscroll-behavior-none" : ""} h-full pb-20`}
+            className={`h-full overflow-auto scroll-smooth pb-20 ${isMobile ? "overscroll-behavior-none" : ""}`}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
             style={{
               WebkitOverflowScrolling: "touch",
-              scrollbarWidth: isMobile ? "none" : "thin",
-              msOverflowStyle: isMobile ? "none" : "auto",
+              scrollBehavior: "smooth",
               position: "relative",
-              height: "100%",
               transform: "translateZ(0)",
               zIndex: 10,
+              contain: isMobile ? "layout style" : "layout style paint",
             }}
           >
+            {/* Sticky hour markers header - moved to be direct child of scroll container */}
             <div
-              className={`${isMobile ? "sticky" : "sticky"} top-0 z-40 border-b border-white/10 shadow-lg`}
+              className="sticky top-0 z-40 border-b border-white/10 shadow-lg"
               style={{
-                position: isMobile ? "-webkit-sticky" : "sticky",
-                background: "rgba(255, 255, 255, 0.95)",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
+                position: "sticky",
+                top: 0,
+                background: "rgba(255, 255, 255, 0.98)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
                 willChange: "transform",
+                borderBottom: "1px solid rgba(203, 213, 225, 0.3)",
                 zIndex: 40,
               }}
             >
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex"
-              >
-                {hours.map((hour) => (
-                  <motion.div
-                    key={hour}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      delay: hour * 0.02,
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 20,
-                    }}
-                    whileHover={{
-                      scale: 1.05,
-                      backgroundColor: "rgba(102, 126, 234, 0.05)",
-                    }}
-                    className="flex flex-col items-center justify-center py-4 border-r border-white/10 transition-all duration-200 hover:bg-white/30 cursor-pointer shrink-0 bg-white/95"
-                    style={{
-                      minWidth: `${hourWidth}px`,
-                      width: `${hourWidth}px`,
-                    }}
-                  >
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex relative"
+                  style={{
+                    minWidth: "100%",
+                    width: `${24 * hourWidth}px`,
+                  }}
+                >
+                  {hours.map((hour) => (
                     <motion.div
-                      className="text-sm font-bold text-slate-800 mb-1"
-                      whileHover={{ scale: 1.1 }}
+                      key={hour}
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        delay: hour * 0.02,
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                      }}
+                      whileHover={{
+                        scale: 1.05,
+                        backgroundColor: "rgba(102, 126, 234, 0.05)",
+                      }}
+                      className="flex flex-col items-center justify-center py-4 border-r border-white/10 transition-all duration-200 hover:bg-white/30 cursor-pointer shrink-0 bg-white/95"
+                      style={{
+                        minWidth: `${hourWidth}px`,
+                        width: `${hourWidth}px`,
+                      }}
                     >
-                      {hour.toString().padStart(2, "0")}:00
+                      <motion.div
+                        className="text-sm font-bold text-slate-800 mb-1"
+                        whileHover={{ scale: 1.1 }}
+                      >
+                        {hour.toString().padStart(2, "0")}:00
+                      </motion.div>
+                      <div className="text-xs text-slate-500 font-medium">
+                        {hour === 0
+                          ? "12 AM"
+                          : hour < 12
+                            ? `${hour} AM`
+                            : hour === 12
+                              ? "12 PM"
+                              : `${hour - 12} PM`}
+                      </div>
                     </motion.div>
-                    <div className="text-xs text-slate-500 font-medium">
-                      {hour === 0
-                        ? "12 AM"
-                        : hour < 12
-                          ? `${hour} AM`
-                          : hour === 12
-                            ? "12 PM"
-                            : `${hour - 12} PM`}
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-
-            <div
-              className={`relative ${isMobile ? "p-3" : "p-6"} h-full`}
-              style={{ width: `${24 * hourWidth}px`, minHeight: "500px" }}
-            >
-              <div className="absolute inset-0 pointer-events-none">
-                {hours.map((hour) => (
-                  <motion.div
-                    key={`grid-${hour}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: hour * 0.02 }}
-                    className="absolute top-0 bottom-0 w-px bg-gray-200/50"
-                    style={{ left: `${hour * hourWidth + (isMobile ? 12 : 24)}px` }}
-                  />
-                ))}
+                  ))}
+                </motion.div>
               </div>
 
-              <div className={`${isMobile ? "space-y-3" : "space-y-4"}`}>
-                {sortedTasks.map((task, index) => {
-                  const colors = getPriorityColors(task.priority);
-                  const conflictStyle = getConflictStyle(task.id);
-
-                  return (
+              {/* Content area - direct sibling of sticky header */}
+              <div
+                className={`relative ${isMobile ? "p-3" : "p-6"} h-full`}
+                style={{ width: `${24 * hourWidth}px`, minHeight: "500px" }}
+              >
+                <div className="absolute inset-0 pointer-events-none">
+                  {hours.map((hour) => (
                     <motion.div
-                      key={task.id}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      drag="x"
-                      dragElastic={0.1}
-                      dragConstraints={{ left: -100, right: 100 }}
-                      onDragStart={() => handleDragStart(task.id)}
-                      onDragEnd={(_, info) => handleDragEnd(task.id, info)}
-                      whileHover={{ scale: 1.02, y: -2 }}
-                      whileDrag={{ scale: 1.05, rotate: 1, zIndex: 30 }}
-                      className={clsx(
-                        "relative cursor-grab active:cursor-grabbing select-none backdrop-blur-sm touch-manipulation overflow-hidden",
-                        isMobile ? "rounded-2xl p-3" : "rounded-3xl p-4",
-                        "border-2 shadow-2xl transition-all duration-300",
-                        conflictStyle ||
-                          `${colors.border} ${colors.bg} ${colors.shadow}`,
-                        isMobile ? "min-h-[120px]" : "h-fit min-h-[100px]",
-                      )}
-                      style={{
-                        width: `${task.duration * hourWidth}px`,
-                        marginLeft: `${task.startTime * hourWidth + (isMobile ? 12 : 24)}px`,
-                        flexShrink: 0,
-                        minWidth: isMobile 
-                          ? `${Math.max(200, task.duration * hourWidth)}px` 
-                          : `${Math.min(120, task.duration * hourWidth)}px`,
-                        zIndex: 20,
-                      }}
-                      onClick={() => handleEditTask(task)}
-                    >
-                      <div className="w-full h-full flex flex-col justify-between overflow-hidden">
-                        <div className={`flex-1 pr-${isMobile ? "4" : "6"} ${isMobile ? "space-y-1" : "space-y-2"}`}>
-                          <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            className={clsx(
-                              "inline-flex items-center rounded-full font-bold shrink-0",
-                              isMobile ? "px-2 py-0.5 text-xs" : "px-2 py-1 text-xs",
-                              colors.badge,
+                      key={`grid-${hour}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: hour * 0.02 }}
+                      className="absolute top-0 bottom-0 w-px bg-gray-200/50"
+                      style={{ left: `${hour * hourWidth + (isMobile ? 12 : 24)}px` }}
+                    />
+                  ))}
+                </div>
+
+                <div className={`${isMobile ? "space-y-3" : "space-y-4"}`}>
+                  {sortedTasks.map((task, index) => {
+                    const colors = getPriorityColors(task.priority);
+                    const conflictStyle = getConflictStyle(task.id);
+
+                    return (
+                      <motion.div
+                        key={task.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        drag="x"
+                        dragElastic={0.1}
+                        dragConstraints={{ left: -100, right: 100 }}
+                        onDragStart={() => handleDragStart(task.id)}
+                        onDragEnd={(_, info) => handleDragEnd(task.id, info)}
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileDrag={{ scale: 1.05, rotate: 1, zIndex: 30 }}
+                        className={clsx(
+                          "relative cursor-grab active:cursor-grabbing select-none backdrop-blur-sm touch-manipulation overflow-hidden",
+                          isMobile ? "rounded-2xl p-3" : "rounded-3xl p-4",
+                          "border-2 shadow-2xl transition-all duration-300",
+                          conflictStyle ||
+                            `${colors.border} ${colors.bg} ${colors.shadow}`,
+                          isMobile ? "min-h-[120px]" : "h-fit min-h-[100px]",
+                        )}
+                        style={{
+                          width: `${task.duration * hourWidth}px`,
+                          marginLeft: `${task.startTime * hourWidth + (isMobile ? 12 : 24)}px`,
+                          flexShrink: 0,
+                          minWidth: isMobile 
+                            ? `${Math.max(200, task.duration * hourWidth)}px` 
+                            : `${Math.min(120, task.duration * hourWidth)}px`,
+                          zIndex: 20,
+                        }}
+                        onClick={() => handleEditTask(task)}
+                      >
+                        <div className="w-full h-full flex flex-col justify-between overflow-hidden">
+                          <div className={`flex-1 pr-${isMobile ? "4" : "6"} ${isMobile ? "space-y-1" : "space-y-2"}`}>
+                            <motion.div
+                              whileHover={{ scale: 1.02 }}
+                              className={clsx(
+                                "inline-flex items-center rounded-full font-bold shrink-0",
+                                isMobile ? "px-2 py-0.5 text-xs" : "px-2 py-1 text-xs",
+                                colors.badge,
+                              )}
+                            >
+                              <FiFlag className={`${isMobile ? "w-2.5 h-2.5" : "w-3 h-3"} mr-1 shrink-0`} />
+                              <span className="truncate">
+                                {task.priority.toUpperCase()}
+                              </span>
+                            </motion.div>
+
+                            <h3
+                              className={`font-bold text-gray-800 ${isMobile ? "text-xs" : "text-sm"} leading-tight ${isMobile ? "line-clamp-2" : "truncate"} pr-1`}
+                              title={task.title}
+                            >
+                              {task.title}
+                            </h3>
+
+                            {isMobile && task.description && (
+                              <p className="text-xs text-gray-600 line-clamp-2 leading-tight">
+                                {task.description}
+                              </p>
                             )}
-                          >
-                            <FiFlag className={`${isMobile ? "w-2.5 h-2.5" : "w-3 h-3"} mr-1 shrink-0`} />
-                            <span className="truncate">
-                              {task.priority.toUpperCase()}
-                            </span>
-                          </motion.div>
 
-                          <h3
-                            className={`font-bold text-gray-800 ${isMobile ? "text-xs" : "text-sm"} leading-tight ${isMobile ? "line-clamp-2" : "truncate"} pr-1`}
-                            title={task.title}
-                          >
-                            {task.title}
-                          </h3>
+                            <div className={`text-xs text-gray-600 ${isMobile ? "space-y-0.5" : "space-y-1"}`}>
+                              <div className="flex items-center gap-1 truncate">
+                                <IoTime className={`${isMobile ? "w-2.5 h-2.5" : "w-3 h-3"} shrink-0`} />
+                                <span className="font-medium truncate">
+                                  {formatTime(task.startTime)} -{" "}
+                                  {formatTime(task.startTime + task.duration)}
+                                </span>
+                              </div>
 
-                          {isMobile && task.description && (
-                            <p className="text-xs text-gray-600 line-clamp-2 leading-tight">
-                              {task.description}
-                            </p>
-                          )}
-
-                          <div className={`text-xs text-gray-600 ${isMobile ? "space-y-0.5" : "space-y-1"}`}>
-                            <div className="flex items-center gap-1 truncate">
-                              <IoTime className={`${isMobile ? "w-2.5 h-2.5" : "w-3 h-3"} shrink-0`} />
-                              <span className="font-medium truncate">
-                                {formatTime(task.startTime)} -{" "}
-                                {formatTime(task.startTime + task.duration)}
-                              </span>
-                            </div>
-
-                            <div className="flex items-center gap-1 truncate">
-                              <span className="text-xs font-medium">
-                                {task.duration}h duration
-                              </span>
+                              <div className="flex items-center gap-1 truncate">
+                                <span className="text-xs font-medium">
+                                  {task.duration}h duration
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      <motion.div
-                        className={`absolute ${isMobile ? "top-1.5 right-1.5" : "top-2 right-2"} text-gray-400`}
-                        whileHover={{ scale: 1.2 }}
-                      >
-                        <MdDragIndicator className={`${isMobile ? "w-2.5 h-2.5" : "w-3 h-3"}`} />
+                        <motion.div
+                          className={`absolute ${isMobile ? "top-1.5 right-1.5" : "top-2 right-2"} text-gray-400`}
+                          whileHover={{ scale: 1.2 }}
+                        >
+                          <MdDragIndicator className={`${isMobile ? "w-2.5 h-2.5" : "w-3 h-3"}`} />
+                        </motion.div>
                       </motion.div>
-                    </motion.div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
           </motion.div>
 
           <AnimatePresence>
@@ -1122,7 +1129,7 @@ const TimelineEditor: React.FC = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 bg-black/30 z-[100]"
+                  className="fixed inset-0 bg-black/30 z-[100]"
                   onClick={() => setShowAddDialog(false)}
                 />
                 <motion.div
@@ -1134,7 +1141,7 @@ const TimelineEditor: React.FC = () => {
                   exit={{ x: isMobile ? 0 : "100%", y: isMobile ? "-100%" : 0 }}
                   transition={{ type: "spring", damping: 25, stiffness: 300 }}
                   className={clsx(
-                    "absolute z-[101] clay-effect flex flex-col",
+                    "fixed z-[101] clay-effect flex flex-col",
                     isMobile
                       ? "inset-x-4 top-8 bottom-8 rounded-3xl"
                       : "top-4 right-4 bottom-4 w-[450px] rounded-3xl",
@@ -1321,7 +1328,7 @@ const TimelineEditor: React.FC = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 bg-black/30 z-[100]"
+                  className="fixed inset-0 bg-black/30 z-[100]"
                   onClick={() => setShowEditDialog(false)}
                 />
                 <motion.div
@@ -1333,7 +1340,7 @@ const TimelineEditor: React.FC = () => {
                   exit={{ x: isMobile ? 0 : "100%", y: isMobile ? "-100%" : 0 }}
                   transition={{ type: "spring", damping: 25, stiffness: 300 }}
                   className={clsx(
-                    "absolute z-[101] clay-effect flex flex-col",
+                    "fixed z-[101] clay-effect flex flex-col",
                     isMobile
                       ? "inset-x-4 top-8 bottom-8 rounded-3xl"
                       : "top-4 right-4 bottom-4 w-[450px] rounded-3xl",
@@ -1498,6 +1505,7 @@ const TimelineEditor: React.FC = () => {
                       </div>
                     </div>
 
+                    {/* FIX: Removed the Cancel button from this section */}
                     <div className="shrink-0 border-t border-slate-200/50 p-8 pt-6">
                       <div className="flex gap-3">
                         <motion.button
@@ -1511,17 +1519,6 @@ const TimelineEditor: React.FC = () => {
                         >
                           <IoTrash className="w-4 h-4" />
                           Delete
-                        </motion.button>
-                        <motion.button
-                          whileHover={{
-                            scale: 1.02,
-                            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                          }}
-                          whileTap={{ scale: 0.98 }}
-                          onClick={() => setShowEditDialog(false)}
-                          className="flex-1 py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-all duration-200 flex items-center justify-center"
-                        >
-                          Cancel
                         </motion.button>
                         <motion.button
                           whileHover={{

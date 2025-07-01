@@ -479,7 +479,7 @@ const TimelineEditor: React.FC = () => {
     const startTime = newTaskStartTimeStr === "" || newTaskStartTimeStr === "0" 
       ? 0 
       : Math.max(0, Math.min(23, parseInt(newTaskStartTimeStr) || 9));
-    
+
     const duration = Math.max(
       0.5,
       Math.min(12, parseFloat(newTaskDurationStr) || 1),
@@ -793,7 +793,7 @@ const TimelineEditor: React.FC = () => {
                     Timeline Pro
                   </motion.h1>
                 </div>
-                
+
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -847,8 +847,7 @@ const TimelineEditor: React.FC = () => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6, duration: 0.6 }}
-                    className="flex items-center gap-4 mt-3"
+                    transition={{ delay: 0.6, duration: 0.6                    className="flex items-center gap-4 mt-3"
                   >
                     <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg">
                       <FiClock className="w-4 h-4 text-white" />
@@ -865,7 +864,7 @@ const TimelineEditor: React.FC = () => {
                   </motion.div>
                 </motion.div>
 
-                
+
               </div>
             )}
           </div>
@@ -1134,10 +1133,10 @@ const TimelineEditor: React.FC = () => {
                   exit={{ x: isMobile ? 0 : "100%", y: isMobile ? "-100%" : 0 }}
                   transition={{ type: "spring", damping: 25, stiffness: 300 }}
                   className={clsx(
-                    "absolute z-[101] overflow-y-auto clay-effect",
+                    "absolute z-[101] clay-effect flex flex-col",
                     isMobile
-                      ? "inset-x-4 top-4 bottom-4 rounded-3xl"
-                      : "top-4 right-4 bottom-4 w-[450px] rounded-3xl",
+                      ? "inset-x-4 top-4 bottom-4 rounded-3xl max-h-[calc(100vh-2rem)]"
+                      : "top-4 right-4 bottom-4 w-[450px] rounded-3xl max-h-[calc(100vh-2rem)]",
                   )}
                   style={{
                     boxShadow: `
@@ -1148,7 +1147,7 @@ const TimelineEditor: React.FC = () => {
                     `,
                   }}
                 >
-                  <div className="p-8">
+                  <div className="p-8 overflow-y-auto flex-1">
                     <div className="flex items-center justify-between mb-8">
                       <div>
                         <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-3 mb-1">
@@ -1326,10 +1325,10 @@ const TimelineEditor: React.FC = () => {
                   exit={{ x: isMobile ? 0 : "100%", y: isMobile ? "-100%" : 0 }}
                   transition={{ type: "spring", damping: 25, stiffness: 300 }}
                   className={clsx(
-                    "absolute z-[101] overflow-y-auto clay-effect",
+                    "absolute z-[101] clay-effect flex flex-col",
                     isMobile
-                      ? "inset-x-4 top-4 bottom-4 rounded-3xl"
-                      : "top-4 right-4 bottom-4 w-[450px] rounded-3xl",
+                      ? "inset-x-4 top-4 bottom-4 rounded-3xl max-h-[calc(100vh-2rem)]"
+                      : "top-4 right-4 bottom-4 w-[450px] rounded-3xl max-h-[calc(100vh-2rem)]",
                   )}
                   style={{
                     boxShadow: `
@@ -1340,7 +1339,7 @@ const TimelineEditor: React.FC = () => {
                     `,
                   }}
                 >
-                  <div className="p-8">
+                  <div className="p-8 overflow-y-auto flex-1">
                     <div className="flex items-center justify-between mb-8">
                       <div>
                         <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-3 mb-1">
@@ -1638,7 +1637,7 @@ const TimelineEditor: React.FC = () => {
           )}
         </motion.button>
 
-        
+
       </motion.div>
     </>
   );
